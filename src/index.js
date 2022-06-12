@@ -1,1 +1,3 @@
-// enter point here
+import { welcomeUser } from './args.js';
+
+welcomeUser();
