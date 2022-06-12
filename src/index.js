@@ -1,3 +1,3 @@
-import { welcomeUser } from './args.js';
+import { initFileManager } from './init-file-manager.js';
 
-welcomeUser();
+await initFileManager();
