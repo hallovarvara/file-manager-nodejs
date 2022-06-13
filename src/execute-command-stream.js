@@ -1,5 +1,5 @@
 import { Transform } from 'stream';
-import { resolve } from 'path';
+import { isAbsolute, resolve } from 'path';
 import { STOP_COMMAND, HOME_DIRECTORY } from './constants.js';
 import { write } from './utils/write.js';
 import { goUpAndGetPath } from './go-up-and-get-path.js';
@@ -33,7 +33,10 @@ export const executeCommandStream = new Transform({
             await getDirectoryContentList(currentPath);
         } else if (command.startsWith('cd')) {
             const [, pathAddition] = getCommandAttributes(command);
-            const newPath = resolvePath(currentPath, pathAddition);
+
+            const newPath = isAbsolute(pathAddition)
+                ? pathAddition
+                : resolve(currentPath, pathAddition);
 
             if (currentPath === newPath) {
                 write(
