@@ -1,16 +1,23 @@
 import { copyFile as copy, existsSync } from 'fs';
-import { resolve } from 'path';
+import { isAbsolute, resolve } from 'path';
 import { throwError } from './utils/throw-error.js';
 import { isString } from './utils/is-string.js';
 import { write } from './utils/write.js';
 
 export const copyFile = async ({
-    currentPath,
+    currentPath = '',
     filename = '',
     newDirectoryName = '',
 }) => {
+    console.log({ filename, isAbs: isAbsolute(newDirectoryName) });
+
     const filePath = resolve(currentPath, filename);
-    const newDirectory = resolve(currentPath, newDirectoryName);
+
+    console.log({ filePath });
+
+    const newDirectory = isAbsolute(newDirectoryName)
+        ? newDirectoryName
+        : resolve(currentPath, newDirectoryName);
 
     if (!isString(filePath)) {
         throwError({

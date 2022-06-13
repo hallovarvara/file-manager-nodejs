@@ -4,7 +4,6 @@ import { STOP_COMMAND, HOME_DIRECTORY } from './constants.js';
 import { write } from './utils/write.js';
 import { goUpAndGetPath } from './go-up-and-get-path.js';
 import { getDirectoryContentList } from './get-directory-content-list.js';
-import { resolvePath } from './utils/resolve-path.js';
 import { readFileContent } from './read-file-content.js';
 import { createFile } from './create-file.js';
 import { renameFile } from './rename-file.js';
@@ -63,12 +62,12 @@ export const executeCommandStream = new Transform({
             const [, filename = '', newDirectoryName = ''] =
                 getCommandAttributes(command);
 
-            await copyFile({ filename, newDirectoryName });
+            await copyFile({ currentPath, filename, newDirectoryName });
         } else if (command.startsWith('mv')) {
             const [, filename = '', newDirectoryName = ''] =
                 getCommandAttributes(command);
 
-            await moveFile({ filename, newDirectoryName });
+            await moveFile({ currentPath, filename, newDirectoryName });
         } else if (command.startsWith('rm')) {
             const [, filename = ''] = getCommandAttributes(command);
             const filePath = resolve(currentPath, filename);
