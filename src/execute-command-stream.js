@@ -15,6 +15,8 @@ import { deleteFile } from './delete-file.js';
 import { throwError } from './utils/throw-error.js';
 import { executeOsFunctionByArgument } from './os/execute-os-function-by-argument.js';
 import { calculateFileHash } from './calculate-file-hash.js';
+import { compressFile } from './compress-file.js';
+import { decompressFile } from './decompress-file.js';
 
 let currentPath = HOME_DIRECTORY;
 
@@ -76,6 +78,16 @@ export const executeCommandStream = new Transform({
             const [, filename = ''] = getCommandAttributes(command);
 
             await calculateFileHash({ currentPath, filename });
+        } else if (command.startsWith('compress')) {
+            const [, filename = '', newFilename = ''] =
+                getCommandAttributes(command);
+
+            compressFile({ currentPath, filename, newFilename });
+        } else if (command.startsWith('decompress')) {
+            const [, filename = '', newFilename = ''] =
+                getCommandAttributes(command);
+
+            decompressFile({ currentPath, filename, newFilename });
         } else {
             throwError({ isInputInvalid: true });
         }
