@@ -16,6 +16,7 @@ import { executeOsFunctionByArgument } from './os/execute-os-function-by-argumen
 import { calculateFileHash } from './calculate-file-hash.js';
 import { compressFile } from './compress-file.js';
 import { decompressFile } from './decompress-file.js';
+import { exit } from './exit.js';
 
 let currentPath = HOME_DIRECTORY;
 
@@ -24,8 +25,7 @@ export const executeCommandStream = new Transform({
         const command = chunk.toString().trim();
 
         if (command === STOP_COMMAND) {
-            write('Thanks for using file manager! Have a great day! 👌 ');
-            process.exit();
+            exit();
         } else if (command === 'up') {
             currentPath = goUpAndGetPath(currentPath);
         } else if (command === 'ls') {

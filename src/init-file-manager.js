@@ -4,6 +4,8 @@ import { STOP_COMMAND, HOME_DIRECTORY } from './constants.js';
 import { welcomeUser } from './welcome.js';
 import { throwError } from './utils/throw-error.js';
 import { executeCommandStream } from './execute-command-stream.js';
+import { sayGoodbye } from './say-goodbye.js';
+import { exit } from './exit.js';
 
 export const initFileManager = async () => {
     const readable = process.stdin;
@@ -21,5 +23,9 @@ If you would like to exit, press "Ctrl/Cmd + C" or type "${STOP_COMMAND}" on a n
 
     pipeline(readable, executeCommandStream, writable, (error) => {
         throwError({ error });
+    });
+
+    process.on('SIGINT', () => {
+        exit();
     });
 };
