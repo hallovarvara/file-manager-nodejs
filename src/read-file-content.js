@@ -1,4 +1,4 @@
-import { existsSync, readFile } from 'fs';
+import { existsSync, createReadStream } from 'fs';
 import { resolve } from 'path';
 import { write } from './utils/write.js';
 import { throwError } from './utils/throw-error.js';
@@ -14,12 +14,14 @@ export const readFileContent = async ({ filename, directory }) => {
         return;
     }
 
-    readFile(filePath, { encoding: 'utf8' }, (readErr, fileContent) => {
-        if (readErr) {
-            throwError({ isOperationFailed: true, error: readErr });
-            return;
-        }
+    const readableStream = createReadStream(filePath);
 
+    readableStream.on('error', function (readErr) {
+        throwError({ isOperationFailed: true, error: readErr });
+    });
+
+    readableStream.on('data', (chunk) => {
+        const fileContent = chunk.toString();
         write(fileContent);
     });
 };
