@@ -1,6 +1,6 @@
 import { Transform } from 'stream';
 import { isAbsolute, resolve } from 'path';
-import { STOP_COMMAND, HOME_DIRECTORY } from './constants.js';
+import { STOP_COMMAND, HOME_DIRECTORY, IS_MAC_OS } from './constants.js';
 import { write } from './utils/write.js';
 import { goUpAndGetPath } from './go-up-and-get-path.js';
 import { getDirectoryContentList } from './get-directory-content-list.js';
@@ -35,9 +35,13 @@ export const executeCommandStream = new Transform({
         } else if (command.startsWith('cd')) {
             const [, pathAddition] = getCommandAttributes(command);
 
-            const newPath = isAbsolute(pathAddition)
-                ? pathAddition
-                : resolvePath(currentPath, pathAddition);
+            const isWindowsDiskPassed =
+                /^[a-zA-Z]:\\$/.test(pathAddition) && !IS_MAC_OS;
+
+            const newPath =
+                isAbsolute(pathAddition) || isWindowsDiskPassed
+                    ? pathAddition
+                    : resolvePath(currentPath, pathAddition);
 
             if (currentPath === newPath) {
                 write(

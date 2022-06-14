@@ -1,9 +1,10 @@
-import { arch, cpus } from 'os';
+import { cpus } from 'os';
 import { write } from '../utils/write.js';
+import { IS_MAC_OS } from '../constants.js';
 
 export const getCpusInfo = () => {
     const CPUInfo = cpus();
-    const coefficient = arch() === 'arm64' ? 10 : 1000;
+    const coefficient = IS_MAC_OS ? 10 : 1000;
     const generalInfoString = `Your computer has ${CPUInfo.length} CPUS:`;
 
     const fullInfo = CPUInfo.reduce((resultString, { model, speed }, index) => {
