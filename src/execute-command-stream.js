@@ -17,6 +17,7 @@ import { calculateFileHash } from './calculate-file-hash.js';
 import { compressFile } from './compress-file.js';
 import { decompressFile } from './decompress-file.js';
 import { exit } from './exit.js';
+import { resolvePath } from './utils/resolve-path.js';
 
 let currentPath = HOME_DIRECTORY;
 
@@ -35,13 +36,13 @@ export const executeCommandStream = new Transform({
 
             const newPath = isAbsolute(pathAddition)
                 ? pathAddition
-                : resolve(currentPath, pathAddition);
+                : resolvePath(currentPath, pathAddition);
 
             if (currentPath === newPath) {
                 write(
                     pathAddition === '..' || pathAddition === '../'
                         ? 'No way back, you are in root directory'
-                        : 'Add correct folder name',
+                        : 'Type correct path after "cd" command',
                 );
             } else {
                 currentPath = newPath;
