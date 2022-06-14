@@ -18,6 +18,7 @@ import { compressFile } from './compress-file.js';
 import { decompressFile } from './decompress-file.js';
 import { exit } from './exit.js';
 import { resolvePath } from './utils/resolve-path.js';
+import { showCurrentPath } from './show-current-path.js';
 
 let currentPath = HOME_DIRECTORY;
 
@@ -46,53 +47,71 @@ export const executeCommandStream = new Transform({
                 );
             } else {
                 currentPath = newPath;
-                write(`Your current path is "${currentPath}"`);
             }
+            showCurrentPath(currentPath);
         } else if (command.startsWith('cat')) {
             const [, filename = ''] = getCommandAttributes(command);
             await readFileContent({ directory: currentPath, filename });
+
+            showCurrentPath(currentPath);
         } else if (command.startsWith('add')) {
             const [, filename = ''] = getCommandAttributes(command);
             await createFile({ directory: currentPath, filename });
+
+            showCurrentPath(currentPath);
         } else if (command.startsWith('rn')) {
             const [, filename = '', newFilename = ''] =
                 getCommandAttributes(command);
 
             await renameFile({ directory: currentPath, filename, newFilename });
+
+            showCurrentPath(currentPath);
         } else if (command.startsWith('cp')) {
             const [, filename = '', newDirectoryName = ''] =
                 getCommandAttributes(command);
 
             await copyFile({ currentPath, filename, newDirectoryName });
+
+            showCurrentPath(currentPath);
         } else if (command.startsWith('mv')) {
             const [, filename = '', newDirectoryName = ''] =
                 getCommandAttributes(command);
 
             await moveFile({ currentPath, filename, newDirectoryName });
+
+            showCurrentPath(currentPath);
         } else if (command.startsWith('rm')) {
             const [, filename = ''] = getCommandAttributes(command);
             const filePath = resolve(currentPath, filename);
 
             await deleteFile(filePath);
+
+            showCurrentPath(currentPath);
         } else if (command.startsWith('os')) {
             const [, arg] = getCommandAttributes(command);
+
             executeOsFunctionByArgument(arg);
+            showCurrentPath(currentPath);
         } else if (command.startsWith('hash')) {
             const [, filename = ''] = getCommandAttributes(command);
 
             await calculateFileHash({ currentPath, filename });
+            showCurrentPath(currentPath);
         } else if (command.startsWith('compress')) {
             const [, filename = '', newFilename = ''] =
                 getCommandAttributes(command);
 
             compressFile({ currentPath, filename, newFilename });
+            showCurrentPath(currentPath);
         } else if (command.startsWith('decompress')) {
             const [, filename = '', newFilename = ''] =
                 getCommandAttributes(command);
 
             decompressFile({ currentPath, filename, newFilename });
+            showCurrentPath(currentPath);
         } else {
             throwError({ isInputInvalid: true });
+            showCurrentPath(currentPath);
         }
 
         callback();

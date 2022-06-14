@@ -4,6 +4,7 @@ import { getHomeDirectory } from './get-home-directory.js';
 import { getSystemUsername } from './get-system-username.js';
 import { throwError } from '../utils/throw-error.js';
 import { getSystemArchitecture } from './get-system-architecture.js';
+import { showCurrentPath } from '../show-current-path.js';
 
 export const executeOsFunctionByArgument = (arg) => {
     switch (arg) {

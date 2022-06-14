@@ -1,8 +1,8 @@
 import { resolvePath } from './utils/resolve-path.js';
-import { write } from './utils/write.js';
+import { showCurrentPath } from './show-current-path.js';
 
 export const goUpAndGetPath = (currentPath) => {
     const newPath = resolvePath(currentPath, '..');
-    write(`Your current path is "${newPath}"`);
+    showCurrentPath(newPath);
     return newPath;
 };

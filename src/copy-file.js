@@ -9,11 +9,7 @@ export const copyFile = async ({
     filename = '',
     newDirectoryName = '',
 }) => {
-    console.log({ filename, isAbs: isAbsolute(newDirectoryName) });
-
     const filePath = resolve(currentPath, filename);
-
-    console.log({ filePath });
 
     const newDirectory = isAbsolute(newDirectoryName)
         ? newDirectoryName
