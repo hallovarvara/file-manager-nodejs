@@ -41,10 +41,11 @@ export const executeCommandStream = new Transform({
             const isWindowsDiskPassed =
                 /^[a-zA-Z]:\\$/.test(pathAddition) && !IS_MAC_OS;
 
-            const newPath =
-                isAbsolute(pathAddition) || isWindowsDiskPassed
-                    ? pathAddition
-                    : resolvePath(currentPath, pathAddition);
+            const newPath = resolvePath(
+                currentPath,
+                pathAddition,
+                isAbsolute(pathAddition) || isWindowsDiskPassed,
+            );
 
             if (currentPath === newPath) {
                 write(

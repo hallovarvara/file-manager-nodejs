@@ -4,7 +4,6 @@ import { STOP_COMMAND, HOME_DIRECTORY } from './constants.js';
 import { welcomeUser } from './welcome.js';
 import { throwError } from './utils/throw-error.js';
 import { executeCommandStream } from './execute-command-stream.js';
-import { sayGoodbye } from './say-goodbye.js';
 import { exit } from './exit.js';
 
 export const initFileManager = async () => {
