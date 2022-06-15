@@ -19,6 +19,7 @@ import { decompressFile } from './decompress-file.js';
 import { exit } from './exit.js';
 import { resolvePath } from './utils/resolve-path.js';
 import { showCurrentPath } from './show-current-path.js';
+import { help } from './help.js';
 
 let currentPath = HOME_DIRECTORY;
 
@@ -28,6 +29,8 @@ export const executeCommandStream = new Transform({
 
         if (command === STOP_COMMAND) {
             exit();
+        } else if (command === 'help' || command === '.help') {
+            help();
         } else if (command === 'up') {
             currentPath = goUpAndGetPath(currentPath);
         } else if (command === 'ls') {

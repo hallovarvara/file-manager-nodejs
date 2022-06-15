@@ -19,8 +19,6 @@ Your current path is "${HOME_DIRECTORY}"
 If you would like to exit, press "Ctrl/Cmd + C" or type "${STOP_COMMAND}" on a new line and press Enter
     `);
 
-    // todo: write commands' list
-
     pipeline(readable, executeCommandStream, writable, (error) => {
         throwError({ error });
     });
