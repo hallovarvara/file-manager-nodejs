@@ -21,6 +21,7 @@ npm run start -- --username=jane_doe
 | command                                       | action                                                                                                  |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `.exit`                                       | Exit from CLI File Manager                                                                              |
+| `.help` or `help`                             | Commands listing                                                                                        |
 | `up`                                          | Go upper from current directory                                                                         |
 | `cd path_to_directory`                        | Go to dedicated folder from current directory (`path_to_directory` can be relative or absolute)         |
 | `ls`                                          | List all files and folder in current directory and print it to console                                  |
