@@ -1,1 +1,3 @@
-// enter point here
+import { initFileManager } from './init-file-manager.js';
+
+await initFileManager();
